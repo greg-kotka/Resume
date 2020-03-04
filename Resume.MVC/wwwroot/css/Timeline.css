@@ -2,10 +2,7 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: #474e5d;
-    font-family: Helvetica, sans-serif;
-}
+
  
 /* The actual timeline (the vertical ruler) */
 .timeline {
@@ -24,6 +21,7 @@ body {
         bottom: 0;
         left: 50%;
         margin-left: -3px;
+        height:800px;
     }
 
 /* Container around content */

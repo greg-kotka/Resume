@@ -31,7 +31,7 @@
 
 
 
-    <div class="timeline text-left">
+    <div class="timeline text-left" style="background-color: #474e5d; overflow:auto; max-height:400px;">
         @{ int i = 0; int previousCompanyID = -1;}
         @foreach(var item in Model.companyJobInfos.OrderByDescending(j => j.StartDate))
         {
