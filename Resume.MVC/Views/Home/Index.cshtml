@@ -1,0 +1,30 @@
+﻿@model ResumeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <div class="content">
+        <h1 class="display-4">
+            Welcome to
+        </h1>
+        <p>@Model.userInfo.FirstName @Model.userInfo.LastName Interactive Resume Please have a look around.</p>
+    </div>
+   
+    <link rel="stylesheet" href="~/css/Timeline.css" />
+    <div class="timeline">
+        @{ int i = 0;}
+        @foreach(var item in Model.company)
+        {
+             i++;
+            <div class="container @(i % 2 == 1 ? "left" : "right")">
+                <div class="content">
+                    @{ int employeeCompanyREL_ID = Model.employeeCompanyRel.Where(j => j.UserInfo_ID == Model.userInfo.ID && j.Company_ID == item.ID).FirstOrDefault().Id; }
+                    <h2>@Model.employeeCompanyRel.Where(j => j.Id == employeeCompanyREL_ID).FirstOrDefault().StartDate.ToString("MMMM yyy")</h2>
+                    <p>@Model.jobDescriptions.Where(j => j.EmployeeCompanyRel_ID == employeeCompanyREL_ID).FirstOrDefault().Title</p>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

@@ -63,6 +63,7 @@
     <Build Include="CanidateInfo.sql" />
     <Build Include="Phone.sql" />
     <Build Include="PhoneType.sql" />
+    <Build Include="EmployeeCompanyRel.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="ResumeDB.refactorlog" />

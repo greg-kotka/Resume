@@ -7,9 +7,10 @@ namespace Resume.core
 {
     public class JobDescription
     {     
-        public int ID { get; set; }      
+        public int ID { get; set; }
+        public int EmployeeCompanyRel_ID { get; set; }
         public string Title { get; set; }
-       public string Job_Description { get; set; }
+        public string Job_Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }

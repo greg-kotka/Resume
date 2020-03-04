@@ -1,11 +1,11 @@
 ﻿CREATE TABLE [dbo].[Company]
 (
-	[ID] INT NOT NULL PRIMARY KEY,
-	[CanidateInfo_ID] INT NOT NULL Foreign KEY ([CanidateInfo_ID]) REFERENCES [dbo].[CanidateInfo]([ID]),
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY,
 	CompanyName varchar(50) NOT NULL,
-	StartDate datetime NOT NULL,
-	EndDate datetime NOT NULL,
-	Logo IMAGE, 
+	City varchar(50) NOT NULL,
+	[State] varchar(50) NOT NULL,
+	Logo NVARCHAR(MAX), 
+    [Link] VARCHAR(300) NULL, 
 
     
 )

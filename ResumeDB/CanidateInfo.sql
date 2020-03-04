@@ -1,6 +1,7 @@
-﻿CREATE TABLE [dbo].[CanidateInfo]
+﻿CREATE TABLE [dbo].[UserInfo]
 (
-	[ID] INT NOT NULL PRIMARY KEY, 
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY, 
     [FirstName] VARCHAR(50) NULL, 
-    [LastName] VARCHAR(50) NULL
+    [LastName] VARCHAR(50) NULL, 
+    [Photo] NVARCHAR(MAX) NULL
 )

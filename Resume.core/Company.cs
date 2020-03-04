@@ -6,8 +6,9 @@ namespace Resume.core
     {
         public int ID { get; set; }
         public string CompanyName { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public Int32 Logo { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Logo { get; set; }
+        public string Link { get; set; }
     }
 }
