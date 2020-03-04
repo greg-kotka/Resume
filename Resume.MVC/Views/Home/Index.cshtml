@@ -2,29 +2,124 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<link rel="stylesheet" href="~/css/Timeline.css" />
+<link rel="stylesheet" href="~/css/modal.css" />
 
+<style>
+    /* Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 25%;
+  padding: 5px;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
 <div class="text-center">
     <div class="content">
         <h1 class="display-4">
             Welcome to
         </h1>
-        <p>@Model.userInfo.FirstName @Model.userInfo.LastName Interactive Resume Please have a look around.</p>
+        <p>@Model.userInfo.FirstName @Model.userInfo.LastName's Interactive Resume Please have a look around.</p>
     </div>
-   
-    <link rel="stylesheet" href="~/css/Timeline.css" />
-    <div class="timeline">
-        @{ int i = 0;}
-        @foreach(var item in Model.company)
+
+
+
+
+    <div class="timeline text-left">
+        @{ int i = 0; int previousCompanyID = -1;}
+        @foreach(var item in Model.companyJobInfos.OrderByDescending(j => j.StartDate))
         {
+            if (previousCompanyID != item.Company_ID)
+            {
+             previousCompanyID = item.Company_ID;
              i++;
-            <div class="container @(i % 2 == 1 ? "left" : "right")">
-                <div class="content">
-                    @{ int employeeCompanyREL_ID = Model.employeeCompanyRel.Where(j => j.UserInfo_ID == Model.userInfo.ID && j.Company_ID == item.ID).FirstOrDefault().Id; }
-                    <h2>@Model.employeeCompanyRel.Where(j => j.Id == employeeCompanyREL_ID).FirstOrDefault().StartDate.ToString("MMMM yyy")</h2>
-                    <p>@Model.jobDescriptions.Where(j => j.EmployeeCompanyRel_ID == employeeCompanyREL_ID).FirstOrDefault().Title</p>
+        <div class="containers @(i % 2 == 1 ? "left" : "right")" id="myBtn@(i)" style="cursor:pointer;">
+    <div class="content">
+        <h3>@item.StartDate.ToString("MMMM yyy") - @item.EndDate.ToString("MMMM yyy")</h3>
+        <p>@item.CompanyName<br /> @item.Title</p>
+        <p> @item.Job_Description.Substring(0, item.Job_Description.Substring(0,100).LastIndexOf(" ")).Trim()...</p>
+    </div>
+
+        </div>
+
+ <!-- The Modal -->
+        <div id="myModal@(i)" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>@item.CompanyName:  @item.Title</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    @item.Job_Description
+                </div>
+                <div class="modal-footer">
+                    <h3>@item.StartDate.ToString("MMMM yyy") - @item.EndDate.ToString("MMMM yyy")</h3>
                 </div>
             </div>
+
+        </div>
+
+            }
         }
 
     </div>
+    @if(Model.patent != null && Model.patent.Count() > 0)
+    {
+    <div class="text-center">
+        <div class="content">
+            <h2>Patents</h2>
+            <div class="row">
+                @foreach(var item in Model.patent.OrderBy(j => j.Number)){
+                <div class="column">
+                    <a href="@item.Link" target="_blank"><img src="~/img/IMG_0805.jpg" style="width:50%; border:0px;" /></a>
+                    <br />@item.Number.ToString()
+                </div>
+            }
+            </div>
+
+        </div>
+    </div>
+     }
+
+  
 </div>
+
+<script>
+    @for(int a = 1; a <= i; a++)
+    {
+    <text>
+        // Get the modal
+        var modal@(a) = document.getElementById("myModal@(a)");
+
+        // Get the button that opens the modal
+        var btn@(a) = document.getElementById("myBtn@(a)");
+
+        // Get the <span> element that closes the modal
+        var span@(a) = document.getElementsByClassName("close")[@(a-1)];
+
+        // When the user clicks the button, open the modal
+        btn@(a).onclick = function () {
+            modal@(a).style.display = "block";
+        }
+        // When the user clicks on <span> (x), close the modal
+        span@(a).onclick = function () {
+            modal@(a).style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal@(a).style.display = "none";
+            }
+        }
+     </text>
+     }
+</script>

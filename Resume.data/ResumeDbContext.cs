@@ -14,6 +14,7 @@ namespace Resume.data
         public DbSet<Company> Company { get; set; }
         public DbSet<JobDescription> JobDescription { get; set; }
         public DbSet<EmployeeCompanyRel> EmployeeCompanyRel { get; set; }
+        public DbSet<Patent> Patent { get; set; }
         public DbSet<Phone> Phone { get; set; }
         public DbSet<UserInfo> UserInfo { get; set; }
     }

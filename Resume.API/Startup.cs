@@ -36,6 +36,7 @@ namespace Resume.API
             services.AddScoped<ICompanyData, SqlCompanyData>();
             services.AddScoped<IJobDescriptionData, SqlJobDescriptionData>();
             services.AddScoped<IEmployeeCompanyRelData, SqlEmployeeCompanyRelData>();
+            services.AddScoped<IPatentData, SqlPatentData>();
             services.AddScoped<IPhoneData, SqlPhoneData>();
             services.AddScoped<IUserInfoData, SqlUserInfoData>();
             services.AddControllers();

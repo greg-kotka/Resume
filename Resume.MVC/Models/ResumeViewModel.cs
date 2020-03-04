@@ -13,9 +13,10 @@ namespace Resume.MVC.Models
         public List<Company> company { get; set; }
         public List<JobDescription> jobDescriptions { get; set; }
         public List<EmployeeCompanyRel> employeeCompanyRel { get; set; }
+        public List<Patent> patent { get; set; }
         public Phone phone { get; set; }
 
-
+        public List<CompanyJobInfo> companyJobInfos { get; set; }
 
 
         public ResumeViewModel(string domain, int? UserID)
@@ -48,7 +49,13 @@ namespace Resume.MVC.Models
                 employeeCompanyRel = JsonSerializer.Deserialize<List<EmployeeCompanyRel>>(str, JSO);
             }
 
-
+            using (WebClient webClient = new WebClient())
+            {
+                JsonSerializerOptions JSO = new JsonSerializerOptions();
+                JSO.PropertyNameCaseInsensitive = true;
+                string str = webClient.DownloadString(domain + "api/Patent/" + UserID);
+                patent = JsonSerializer.Deserialize<List<Patent>>(str, JSO);
+            }
 
             using (WebClient webClient = new WebClient())
             {
@@ -61,11 +68,7 @@ namespace Resume.MVC.Models
                     thisjobDescriptions = JsonSerializer.Deserialize<IEnumerable<JobDescription>>(str, JSO);
                     if (jobDescriptions != null)
                     {
-                        jobDescriptions.AddRange(thisjobDescriptions);
-                        //foreach (JobDescription jd in thisjobDescriptions)
-                        //{
-                        //    jobDescriptions.Append(jd);
-                        //}
+                        jobDescriptions.AddRange(thisjobDescriptions);                       
                     }
                     else
                     {
@@ -74,7 +77,27 @@ namespace Resume.MVC.Models
 
                 }
             }
-
+            companyJobInfos = new List<CompanyJobInfo>();
+            CompanyJobInfo thisCJI;
+            foreach (Company thisc in company)
+            {
+                thisCJI = new CompanyJobInfo();
+                thisCJI.Company_ID = thisc.ID;
+                thisCJI.CompanyName = thisc.CompanyName;
+                thisCJI.Logo = thisc.Logo;
+                thisCJI.Link = thisc.Link;
+                thisCJI.City = thisc.City;
+                thisCJI.EmployeeCompanyRel_ID = employeeCompanyRel.Where(ECR => ECR.Company_ID == thisc.ID && ECR.UserInfo_ID == userInfo.ID).Select(e => e.Id).FirstOrDefault();
+                foreach (JobDescription thisJD in jobDescriptions.Where(jd => jd.EmployeeCompanyRel_ID == thisCJI.EmployeeCompanyRel_ID))
+                {
+                    thisCJI.JobDescription_ID = thisJD.ID;
+                    thisCJI.Job_Description = thisJD.Job_Description;
+                    thisCJI.Title = thisJD.Title;
+                    thisCJI.StartDate = thisJD.StartDate;
+                    thisCJI.EndDate = thisJD.EndDate;
+                }
+                companyJobInfos.Add(thisCJI);
+            }                        
         }
     }
 }

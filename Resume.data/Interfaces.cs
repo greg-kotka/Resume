@@ -35,6 +35,15 @@ namespace Resume.data
         EmployeeCompanyRel Delete(int ID);
         int Commit();
     }
+    public interface IPatentData
+    {
+        IEnumerable<Patent> GetPatentsByUserID(int User_ID);
+        Patent GetByID(int ID);
+        Patent Update(Patent updatePatent);
+        Patent Add(Patent newPatent);
+        Patent Delete(int ID);
+        int Commit();
+    }
     public interface IPhoneData
     {
         Phone GetPhoneByID(int ID);
