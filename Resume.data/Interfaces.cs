@@ -7,7 +7,7 @@ namespace Resume.data
     public interface ICompanyData
     {
         IEnumerable<Company> GetCompanies();
-        IEnumerable<Company> GetCompaniesByUserId(int UserID);
+        IEnumerable<Company> GetCompaniesByUserID(int UserID);
         Company GetCompanyByID(int ID);
         Company Update(Company updateCompany);
         Company Add(Company newCompany);

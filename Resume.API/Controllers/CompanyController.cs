@@ -14,7 +14,8 @@ namespace Resume.API.Controllers
     {
 
         private ICompanyData companyData;
-        public IEnumerable<Company> Company { get; set; }
+        public IEnumerable<Company> Companies { get; set; }
+        public Company company { get; set; }
        
         public CompanyController(ICompanyData companyData)
         {
@@ -23,25 +24,27 @@ namespace Resume.API.Controllers
 
         // GET: api/Company/5
         [HttpGet("{id}")]
-        public IEnumerable<Company> Get(int id)
+        public Company Get(int id)
         {
-            Company = companyData.GetCompaniesByUserId(id);
-            return Company.ToArray();
+            company = companyData.GetCompanyByID(id);
+            return company;
         }
 
         // GET: api/Company/5
         [HttpGet]
         public IEnumerable<Company> Get()
         {
-            Company = companyData.GetCompanies();
-            return Company.ToArray();
+            Companies = companyData.GetCompanies();
+            return Companies.ToArray();
         }
 
         // POST: api/Company
         [HttpPost]
-        public void Post([FromBody] Company updateCompany)
+        public void Post([FromBody] Company addCompany)
         {
-            companyData.Update(updateCompany);
+            companyData.Add(addCompany);
+            companyData.Commit();
+            int id = addCompany.ID;
         }
 
         // PUT: api/Company/5
@@ -49,12 +52,15 @@ namespace Resume.API.Controllers
         public void Put(int id, [FromBody] Company value)
         {
             companyData.Update(value);
+            companyData.Commit();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            companyData.Delete(id);
+            companyData.Commit();
         }
     }
 }

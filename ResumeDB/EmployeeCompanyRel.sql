@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[EmployeeCompanyRel]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY (1,1),
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY (1,1),
 	[UserInfo_ID] INT NOT NULL Foreign KEY ([UserInfo_ID]) REFERENCES [dbo].[UserInfo]([ID]),
 	Company_ID INT NOT NULL Foreign Key ([Company_ID]) REFERENCES [dbo].[Company]([ID]),
 	StartDate DATE NOT NULL,

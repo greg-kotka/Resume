@@ -37,7 +37,7 @@ namespace Resume.MVC.Models
             {
                 JsonSerializerOptions JSO = new JsonSerializerOptions();
                 JSO.PropertyNameCaseInsensitive = true;
-                string str = webClient.DownloadString(domain + "api/company/" + UserID);
+                string str = webClient.DownloadString(domain + "api/Usercompanies/" + UserID);
                 company = JsonSerializer.Deserialize<List<Company>>(str, JSO);
             }
 
@@ -64,7 +64,7 @@ namespace Resume.MVC.Models
                 {
                     JsonSerializerOptions JSO = new JsonSerializerOptions();
                     JSO.PropertyNameCaseInsensitive = true;
-                    string str = webClient.DownloadString(domain + "api/jobdescription/" + item.Id);
+                    string str = webClient.DownloadString(domain + "api/jobdescription/" + item.ID);
                     thisjobDescriptions = JsonSerializer.Deserialize<IEnumerable<JobDescription>>(str, JSO);
                     if (jobDescriptions != null)
                     {
@@ -87,7 +87,7 @@ namespace Resume.MVC.Models
                 thisCJI.Logo = thisc.Logo;
                 thisCJI.Link = thisc.Link;
                 thisCJI.City = thisc.City;
-                thisCJI.EmployeeCompanyRel_ID = employeeCompanyRel.Where(ECR => ECR.Company_ID == thisc.ID && ECR.UserInfo_ID == userInfo.ID).Select(e => e.Id).FirstOrDefault();
+                thisCJI.EmployeeCompanyRel_ID = employeeCompanyRel.Where(ECR => ECR.Company_ID == thisc.ID && ECR.UserInfo_ID == userInfo.ID).Select(e => e.ID).FirstOrDefault();
                 foreach (JobDescription thisJD in jobDescriptions.Where(jd => jd.EmployeeCompanyRel_ID == thisCJI.EmployeeCompanyRel_ID))
                 {
                     thisCJI.JobDescription_ID = thisJD.ID;

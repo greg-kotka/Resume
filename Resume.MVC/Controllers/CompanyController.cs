@@ -62,16 +62,24 @@ namespace Resume.MVC.Controllers
         // POST: Company/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Company company)
         {
             try
             {
-                // TODO: Add insert logic here
+               using (WebClient webClient = new WebClient())
+                {
+                    webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    JsonSerializerOptions JSO = new JsonSerializerOptions();
+                    JSO.PropertyNameCaseInsensitive = true;
+                    webClient.UploadString(domain + "api/company/", "Post", JsonSerializer.Serialize<Company>(company));
+
+                }
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                string thisEx = ex.ToString();
                 return View();
             }
         }
@@ -79,22 +87,39 @@ namespace Resume.MVC.Controllers
         // GET: Company/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Company company;
+            using (WebClient webClient = new WebClient())
+            {
+                JsonSerializerOptions JSO = new JsonSerializerOptions();
+                JSO.PropertyNameCaseInsensitive = true;
+                string str = webClient.DownloadString(domain + "api/company/" + id);
+                company = JsonSerializer.Deserialize<Company>(str, JSO);
+            }
+            return View(company);
+        
         }
 
         // POST: Company/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Company company)
         {
             try
             {
-                // TODO: Add update logic here
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    JsonSerializerOptions JSO = new JsonSerializerOptions();
+                    JSO.PropertyNameCaseInsensitive = true;
+                    webClient.UploadString(domain + "api/company/" + company.ID, "Put", JsonSerializer.Serialize<Company>(company));
+
+                }
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                string thisEx = ex.ToString();
                 return View();
             }
         }
@@ -102,18 +127,33 @@ namespace Resume.MVC.Controllers
         // GET: Company/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Company company;
+            using (WebClient webClient = new WebClient())
+            {
+                JsonSerializerOptions JSO = new JsonSerializerOptions();
+                JSO.PropertyNameCaseInsensitive = true;
+                string str = webClient.DownloadString(domain + "api/company/" + id);
+                company = JsonSerializer.Deserialize<Company>(str, JSO);
+            }
+            return View(company);
         }
 
         // POST: Company/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Company company)
         {
             try
             {
                 // TODO: Add delete logic here
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    JsonSerializerOptions JSO = new JsonSerializerOptions();
+                    JSO.PropertyNameCaseInsensitive = true;
+                    webClient.UploadString(domain + "api/company/" + company.ID, "Delete", JsonSerializer.Serialize<Company>(company));
 
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

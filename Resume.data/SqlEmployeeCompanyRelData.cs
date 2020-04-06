@@ -46,7 +46,7 @@ namespace Resume.data
             var query = from c in db.EmployeeCompanyRel
                         where
                          c.Company_ID == Company_ID
-                        orderby c.Id
+                        orderby c.ID
                         select c;
             return query;
         }
@@ -56,7 +56,7 @@ namespace Resume.data
             var query = from c in db.EmployeeCompanyRel
                         where
                          c.UserInfo_ID == User_ID
-                        orderby c.Id
+                        orderby c.ID
                         select c;
             return query;
         }

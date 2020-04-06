@@ -37,11 +37,11 @@ namespace Resume.data
             return company;
         }
 
-        public IEnumerable<Company> GetCompaniesByUserId(int UserID)
+        public IEnumerable<Company> GetCompaniesByUserID(int UserID)
         {
-            var listOfIds = (from ecr in db.EmployeeCompanyRel where ecr.UserInfo_ID == UserID select ecr.Company_ID);
+            var listOfIDs = (from ecr in db.EmployeeCompanyRel where ecr.UserInfo_ID == UserID select ecr.Company_ID);
             var query = from c in db.Company
-                        where listOfIds.Contains(c.ID)
+                        where listOfIDs.Contains(c.ID)
                         orderby c.CompanyName
                         select c;
             return query;
