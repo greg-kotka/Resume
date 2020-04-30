@@ -10,5 +10,6 @@ namespace Resume.core
         public int UserInfo_ID { get; set; }
         public int Number { get; set; }
         public string Link { get; set; }
+        public DateTime DateOfPatent { get; set; }
     }
 }

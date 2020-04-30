@@ -2,24 +2,11 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<link rel="stylesheet" href="~/css/Timeline.css" />
-<link rel="stylesheet" href="~/css/modal.css" />
 
-<style>
-    /* Three image containers (use 25% for four, and 50% for two, etc) */
-.column {
-  float: left;
-  width: 25%;
-  padding: 5px;
-}
 
-/* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-</style>
+
+
+
 <div class="text-center">
     <div class="content">
         <h1 class="display-4">
@@ -30,96 +17,96 @@
 
 
 
+    <div class="container">
 
-    <div class="timeline text-left" style="background-color: #474e5d; overflow:auto; max-height:400px;">
-        @{ int i = 0; int previousCompanyID = -1;}
-        @foreach(var item in Model.companyJobInfos.OrderByDescending(j => j.StartDate))
-        {
-            if (previousCompanyID != item.Company_ID)
-            {
-             previousCompanyID = item.Company_ID;
-             i++;
-        <div class="containers @(i % 2 == 1 ? "left" : "right")" id="myBtn@(i)" style="cursor:pointer;">
-    <div class="content">
-        <h3>@item.StartDate.ToString("MMMM yyy") - @item.EndDate.ToString("MMMM yyy")</h3>
-        <p>@item.CompanyName<br /> @item.Title</p>
-        <p> @item.Job_Description.Substring(0, item.Job_Description.Substring(0,100).LastIndexOf(" ")).Trim()...</p>
-    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="main-timeline4">
+                    @{ int i = 0; int previousCompanyID = -1;}
+                    @foreach (var item in Model.companyJobInfos.OrderByDescending(j => j.StartDate))
+                    {
+                        if (previousCompanyID != item.Company_ID)
+                        {
+                            previousCompanyID = item.Company_ID;
+                            i++;
+                    <div class="timeline">
+                        <div class="timeline-content" data-toggle="modal" data-target="#myModal@(i)"  style="cursor:pointer;">
+                            <span class="year">@item.StartDate.ToString("yyy")</span>
+                            <div class="inner-content">
+                                <h3 class="title">@item.CompanyName<br /> @item.Title</h3>
+                                <p class="description"> @item.Job_Description.Substring(0, item.Job_Description.Substring(0, 100).LastIndexOf(" ")).Trim()...</p>
+                            </div>
+                        </div>
+                    </div>
 
-        </div>
+                    
 
- <!-- The Modal -->
-        <div id="myModal@(i)" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>@item.CompanyName:  @item.Title</h2>
-                    <span class="close">&times;</span>
-                </div>
-                <div class="modal-body">
-                    @item.Job_Description
-                </div>
-                <div class="modal-footer">
-                    <h3>@item.StartDate.ToString("MMMM yyy") - @item.EndDate.ToString("MMMM yyy")</h3>
+                        }
+                    }
                 </div>
             </div>
-
-        </div>
-
-            }
-        }
-
-    </div>
-    @if(Model.patent != null && Model.patent.Count() > 0)
-    {
-    <div class="text-center">
-        <div class="content">
-            <h2>Patents</h2>
-            <div class="row">
-                @foreach(var item in Model.patent.OrderBy(j => j.Number)){
-                <div class="column">
-                    <a href="@item.Link" target="_blank"><img src="~/img/IMG_0805.jpg" style="width:50%; border:0px;" /></a>
-                    <br />@item.Number.ToString()
-                </div>
-            }
-            </div>
-
         </div>
     </div>
-     }
-
-  
 </div>
 
-<script>
-    @for(int a = 1; a <= i; a++)
-    {
-    <text>
-        // Get the modal
-        var modal@(a) = document.getElementById("myModal@(a)");
+@{ i = 0; previousCompanyID = -1;}
+@foreach (var item in Model.companyJobInfos.OrderByDescending(j => j.StartDate))
+                    {
+                        if (previousCompanyID != item.Company_ID)
+                        {
+                            previousCompanyID = item.Company_ID;
+                            i++;
+<div class="modal fade" id="myModal@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@item.CompanyName:  @item.Title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @item.Job_Description
+            </div>
+            <div class="modal-footer">
+                <h3>@item.StartDate.ToString("MMMM yyy") - @item.EndDate.ToString("MMMM yyy")</h3>
+            </div>
+        </div>
+    </div>
+</div>
+}
+}
 
-        // Get the button that opens the modal
-        var btn@(a) = document.getElementById("myBtn@(a)");
 
-        // Get the <span> element that closes the modal
-        var span@(a) = document.getElementsByClassName("close")[@(a-1)];
+@if (Model.patent != null && Model.patent.Count() > 0)
+{
+<div class="container">
+    <h4>Patents</h4>
+    <div class="row">
+        <div class="main-timeline10">
+            @foreach (var item in Model.patent.OrderBy(j => j.Number))
+                {
+            <div class="col-md-3 col-sm-6 timeline">
+                <div class="timeline-inner">
+                    <div class="year">@item.DateOfPatent.ToString("yyy")</div>
+                    <div class="timeline-content">
+                        <div class="post">@item.Number.ToString()</div>
+                        <p class="description"><a href="@item.Link" target="_blank"><img src="~/img/IMG_0805.jpg" style="width:50%; border:0px;" /></a></p>
+                    </div>
+                    <div class="timeline-icon">
 
-        // When the user clicks the button, open the modal
-        btn@(a).onclick = function () {
-            modal@(a).style.display = "block";
-        }
-        // When the user clicks on <span> (x), close the modal
-        span@(a).onclick = function () {
-            modal@(a).style.display = "none";
-        }
+                    </div>
+                </div>
+            </div>
+                }
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal@(a).style.display = "none";
-            }
-        }
-     </text>
-     }
-</script>
+        </div>
+    </div>
+</div>
+}
+
+
+
+
+
+

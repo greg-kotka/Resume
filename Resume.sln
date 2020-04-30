@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resume.core", "Resume.core\Resume.core.csproj", "{AEA8CBCC-D2CC-489E-BF4F-3814DFA31328}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resume.MVC", "Resume.MVC\Resume.MVC.csproj", "{047F49AD-CEE6-49CB-87C5-94E7559D6AEA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F163BC6D-4238-4590-8E5D-4DB117288B85} = {F163BC6D-4238-4590-8E5D-4DB117288B85}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resume.API", "Resume.API\Resume.API.csproj", "{F163BC6D-4238-4590-8E5D-4DB117288B85}"
 EndProject
