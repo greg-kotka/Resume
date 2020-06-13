@@ -27,7 +27,7 @@ namespace Resume.MVC.Controllers
         // GET: Company
         public ActionResult Index()
         {
-            
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             IEnumerable<Company> company;
             using(WebClient webClient = new WebClient())
             {
@@ -42,13 +42,14 @@ namespace Resume.MVC.Controllers
         // GET: Company/Details/5
         public ActionResult Details(int id)
         {
-            IEnumerable<Company> company;
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+            Company company;
             using (WebClient webClient = new WebClient())
             {
                 JsonSerializerOptions JSO = new JsonSerializerOptions();
                 JSO.PropertyNameCaseInsensitive = true;
                 string str = webClient.DownloadString(domain + "api/company/" + id);
-                company = JsonSerializer.Deserialize<IEnumerable<Company>>(str, JSO);
+                company = JsonSerializer.Deserialize<Company>(str, JSO);
             }
             return View(company);
         }
@@ -56,6 +57,7 @@ namespace Resume.MVC.Controllers
         // GET: Company/Create
         public ActionResult Create()
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             return View();
         }
 
@@ -64,6 +66,7 @@ namespace Resume.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Company company)
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             try
             {
                using (WebClient webClient = new WebClient())
@@ -87,6 +90,7 @@ namespace Resume.MVC.Controllers
         // GET: Company/Edit/5
         public ActionResult Edit(int id)
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             Company company;
             using (WebClient webClient = new WebClient())
             {
@@ -104,6 +108,7 @@ namespace Resume.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Company company)
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             try
             {
                 using (WebClient webClient = new WebClient())
@@ -127,6 +132,7 @@ namespace Resume.MVC.Controllers
         // GET: Company/Delete/5
         public ActionResult Delete(int id)
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             Company company;
             using (WebClient webClient = new WebClient())
             {
@@ -143,6 +149,7 @@ namespace Resume.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Company company)
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             try
             {
                 // TODO: Add delete logic here

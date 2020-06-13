@@ -24,7 +24,8 @@ namespace Resume.MVC.Controllers
         ResumeViewModel Model;
 
         public IActionResult Index()
-        {
+        {           
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             string domain = configuration.GetSection("Domains")["API"].ToString();
             Model = new ResumeViewModel(domain, 1);
             return View(Model);
@@ -32,12 +33,14 @@ namespace Resume.MVC.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            ViewData["IP"] = Request.HttpContext.Connection.RemoteIpAddress.ToString();
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

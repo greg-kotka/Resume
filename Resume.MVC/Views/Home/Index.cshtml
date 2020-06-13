@@ -7,12 +7,14 @@
 
 
 
-<div class="text-center">
-    <div class="content">
+<div class="center">
+    <div class="content text-center">
         <h1 class="display-4">
             Welcome to
         </h1>
-        <p>@Model.userInfo.FirstName @Model.userInfo.LastName's Interactive Resume Please have a look around.</p>
+        <h3>@Model.userInfo.FirstName @Model.userInfo.LastName's online resume</h3>
+        <p>Please have a look around.</p>
+        <p class="text-left">I would like to highlight the technologies that were used for this website.  The site is set up using N-tiered architecture.  The presentation layer and data access layer are using .Net Core 3.1 framework.  The presentation layer is created with the MVC architectural pattern.  I have decided to use bootstrap 4 in order to have the presentation layer responsive.  This allows my online resume to be easily viewed on multiple devices.  All data requests are done through RESTful calls to the data access API. The data access API makes all the database transactions for retrieval and modification of the data using Entity Framework.</p>
     </div>
 
 
@@ -30,7 +32,7 @@
                             previousCompanyID = item.Company_ID;
                             i++;
                     <div class="timeline">
-                        <div class="timeline-content" data-toggle="modal" data-target="#myModal@(i)"  style="cursor:pointer;">
+                        <div class="timeline-content" data-toggle="modal" data-target="#myModal@(i)" style="cursor:pointer;">
                             <span class="year">@item.StartDate.ToString("yyy")</span>
                             <div class="inner-content">
                                 <h3 class="title">@item.CompanyName<br /> @item.Title</h3>
@@ -39,7 +41,7 @@
                         </div>
                     </div>
 
-                    
+
 
                         }
                     }
@@ -57,10 +59,10 @@
                             previousCompanyID = item.Company_ID;
                             i++;
 <div class="modal fade" id="myModal@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-dialog-centered" role="document">
+    <div class="modal-dialog  modal-dialog-centered  mw-100 w-75" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">@item.CompanyName:  @item.Title</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@item.CompanyName:  @item.Title | @item.StartDate.ToString("MMMM yyy") - @item.EndDate.ToString("MMMM yyy")</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -68,42 +70,73 @@
             <div class="modal-body">
                 @item.Job_Description
             </div>
-            <div class="modal-footer">
-                <h3>@item.StartDate.ToString("MMMM yyy") - @item.EndDate.ToString("MMMM yyy")</h3>
-            </div>
+          
         </div>
     </div>
 </div>
 }
 }
 
-
+@{ i = 0;}
 @if (Model.patent != null && Model.patent.Count() > 0)
 {
-<div class="container">
-    <h4>Patents</h4>
-    <div class="row">
-        <div class="main-timeline10">
-            @foreach (var item in Model.patent.OrderBy(j => j.Number))
+    <div class="container">
+        <h4>Patents</h4>
+        <div class="row">
+            <div class="main-timeline10">
+                @foreach (var item in Model.patent.OrderBy(j => j.Number))
                 {
-            <div class="col-md-3 col-sm-6 timeline">
-                <div class="timeline-inner">
-                    <div class="year">@item.DateOfPatent.ToString("yyy")</div>
-                    <div class="timeline-content">
-                        <div class="post">@item.Number.ToString()</div>
-                        <p class="description"><a href="@item.Link" target="_blank"><img src="~/img/IMG_0805.jpg" style="width:50%; border:0px;" /></a></p>
-                    </div>
-                    <div class="timeline-icon">
+                 i++;
+                <div class="col-md-3 col-sm-6 timeline">
+                    <div class="timeline-inner">
+                        <div class="year">@item.DateOfPatent.ToString("yyy")</div>
+                        <div class="timeline-content">
+                            <div class="post">@item.Number.ToString()</div>
+                            <p class="description">
+                                <a href="#PatentModal@(i)" class="nav-link" data-remote="@item.Link" data-toggle="modal" data-target="#PatentModal@(i)"><img src="~/img/IMG_0805.jpg" style="width:50%; border:0px;" /></a>
+                            </p>
+                        </div>
+                        <div class="timeline-icon">
 
+                        </div>
                     </div>
                 </div>
-            </div>
-                }
+                <div class="modal hide fade in mh-100 h-100" id="PatentModal@(i)" tabindex="-1" role="dialog">
+                    <div class="modal-dialog mw-100 w-100 mh-100 h-100" role="document">
+                        <div class="modal-content" style="height:100%;">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Patent Number: @item.Number.ToString()</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="max-height: 100%; min-height:450px; overflow-y: hidden;">
 
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+
+                <script>
+
+                    $('#PatentModal@(i)').on('show.bs.modal', function (e) {
+                        e.preventDefault();
+                        var button = $(e.relatedTarget);
+                        var modal = $(this);
+                     //   modal.removeData('bs.modal');
+                        modal.find('.modal-body').html('<iframe src="' + button.data("remote") + '" style="zoom:0.60; min-height:1000px; max-height: 98.6%;" frameborder="0" height="98.6%" width="99.6%"></iframe>');
+
+                    });
+
+
+                </script>
+                }
+            </div>
         </div>
     </div>
-</div>
-}
+            }
 
 
 
